@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import matchup
-import data_loader
-import name_utils
+from . import matchup, data_loader, name_utils
 
 app = FastAPI(title="Matchup Savant")
 
