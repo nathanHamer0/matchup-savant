@@ -1,0 +1,56 @@
+To run (and relaod) server:
+    ```venv
+    uvicorn backend.main:app --reload
+    ```
+
+To access:
+- FULL-STACK
+    - Run:
+        ```venv
+        python -m http.server 8080
+        ```
+    - http://localhost:8080
+- FRONTEND
+    - click on index.html file in finder
+- BACKEND
+    - DOCUMENTATION
+        - http://127.0.0.1:8000/docs 
+    - ENDPOINTS
+        - http://127.0.0.1:8000/health 
+        - http://127.0.0.1:8000/matchup?batter=bo_bichette&pitcher=bryan_woo 
+            - where text beyond `?` feeds arguments to endpoint function
+
+To commit changes to repository:
+    ```venv
+    git add .
+    git commit -m "Day n: ..."
+    ```
+
+Panda library:
+    Data Frames
+        df[df["col"] == "target"]
+            - returns a refactored data frame consisting only of those rows for which under the specified column the scalar matches the target
+            e.g., refactored_data_frame = df[df["pitch_type"] == "FF"]
+    Series'
+        df["col_header"]
+            - returns a series of the scalars under the specified column
+            e.g., scalar_series_under_col = df["pitch_type"]
+        df.loc[df["col"] == "target", "col_header"]
+            - same as:
+                 refactored_data_frame = df[df["col"] == "target"] 
+                 scalar_series_under_col_at_select_rows = refactored_data_frame["col_header"]
+            - returns a series of scalars under the specified column for those which's rows pass the filter
+            e.g., scalar_series_under_col_at_select_rows = df.loc[df["pitch_type"] == "FF", "run_value_per_100"]
+    Scalars
+        series.iloc[0]
+            - returns the first scalar of the series
+            e.g., scalar = df.loc[df["pitch_type"] == "FF", "run_value_per_100"].iloc[0]
+    .loc
+        - only necessary when a row is being selected
+        - not necessary for column selection
+    .iloc[i]
+        - necessary for selecting from a series
+        - unless series is already being traversed in a for-loop
+
+Empirical Percentile Scale
+    Percentile = 100(r - 0.5)/N 

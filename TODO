@@ -1,0 +1,13 @@
+COMPULSARIES
+
+- Scale normalized score to something like an interpreted percentile
+  - Currently have a pre-comparison normalization for pitcher and batter yields on seperate normality scales [DONE]
+    - Combining seperate normality scales yields weight-based distortions in final data
+  - Must generate a set of matchup scores and post-normalize from that singular normality scale based on the derived means and standard-deviations [TODO]
+  - Document compute_empirical_distribution.py [TODO]
+
+ELECTIVES
+
+- Incorporate handedness splits for increased accuracy [TODO]
+- Write monotonicity checks for validation [TODO]
+- Integrate assertions into functions to raise and handle errors [TODO]

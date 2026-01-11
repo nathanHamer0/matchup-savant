@@ -1,0 +1,365 @@
+:root {
+  --space-xxs: 0.1rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+} /* Global spacing & sizing properties referenced and put into use by var(--space-md) */
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  font-style: italic;
+}
+h2 {
+  font-size: 1.4rem;
+}
+h3 {
+  font-size: 1.1rem;
+}
+h4 {
+  font-size: 1rem;
+}
+span {
+  font-size: 0.95rem;
+}
+label {
+  font-size: 0.95rem;
+}
+select {
+  font-size: 0.5rem;
+}
+select {
+  color: black;
+}
+button {
+  color: black;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh; /* Ensures layout scales to screen even if not enough contents to fill screen normally */
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Vertically partitions 3 children of body into rows {header} {main} {footer} */ /* `auto` being just enough vertical spaces to hold the content, and 1fr being the whole remaining frame */
+  background-color: black;
+  font-size: 0.95rem;
+}
+
+* {
+  /* outline: 1px solid rgba(255, 0, 0, 1); */
+  color: white;
+  font-family: Menlo;
+}
+
+.dynamic-color {
+  color: rgba(93, 93, 93, 1);
+}
+
+.grid-sub-score {
+  color: white;
+}
+
+/*******************************************************************************************************************************************************/
+
+.app {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+/* .results-ext {
+  display: grid; */
+/* grid-template-columns: 1fr 2fr; /* Horizontally partitions 2 children of bottom into columns {controls} {results}*/
+/* gap: var(--space-lg); Spaces children internally */
+/* padding: var(
+    --space-lg */
+/*  ); Spaces children from container's external border */
+/* Whereas `margin` is the 3rd of the spacing properties, being spacing the container from neighbouring containers */
+/* } */
+
+.card {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  line-height: 1.4; /* Line spacing */
+  background: linear-gradient(black 30%, rgba(76, 0, 255, 0.6) 100%);
+  outline-color: rgba(0, 255, 0, 1);
+  box-shadow: 6px 6px 16px rgba(76, 0, 255, 1); /* {x-offset} {y-offset} {blur} {color} */
+}
+
+.card > * + * {
+  margin-top: var(--space-xs);
+} /* Sets spacing properties for in-between any two adjacent (+) children (**) */
+
+.shrink-top-pad {
+  padding-top: var(--space-xxs);
+}
+
+/*******************************************************************************************************************************************************/
+
+#legend-body {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.legend-entry {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+}
+
+#batter-legend-box {
+  background-color: rgb(0, 0, 255);
+}
+
+#pitcher-legend-box {
+  background-color: rgb(255, 0, 0);
+}
+
+#okay-score-legend-box {
+  background-color: rgb(75, 75, 75);
+}
+
+#good-score-legend-box {
+  background-color: rgb(255, 140, 0);
+}
+
+#great-score-legend-box {
+  background-color: rgb(246, 255, 0);
+}
+
+#excellent-score-legend-box {
+  background-color: rgb(0, 255, 0);
+}
+
+#batter-label {
+  color: rgb(0, 0, 255);
+}
+
+#pitcher-label {
+  color: rgb(255, 0, 0);
+}
+
+#view-mode-toggle {
+  background-color: black;
+}
+
+#view-mode-flag {
+  color: white;
+}
+
+/*******************************************************************************************************************************************************/
+
+#sliders-container {
+  position: relative;
+  margin: auto;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+}
+
+.pitch-slider {
+  position: relative;
+  margin: 0 auto;
+  height: 75px; /* Cannot be `auto` as it sizes to physically-grounded relatively positioned children elements, when there is none, the height will be too small and ghost children will overflow */
+  width: 90%; /* Cannot be 100% as centering by margin requires free spacec to work within */
+  text-align: center; /* Cannot center text-based elements (e.g., p, span) w/ margins, must use text-align at parent */
+}
+
+.slider-bar {
+  position: absolute;
+  margin: 0 auto;
+  top: 70%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: 90%;
+  background-color: white;
+}
+
+.slider-flag {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 15px;
+  width: 1px;
+  background-color: white;
+}
+
+#batter-flag {
+  position: absolute;
+  left: 100%;
+  background-color: blue;
+}
+
+#pitcher-flag {
+  position: absolute;
+  right: 100%;
+  background-color: red;
+}
+
+.slider-flag-field {
+  position: absolute;
+  margin: 0 auto;
+  top: 100%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: white;
+}
+
+#batter-flag-field {
+  color: blue;
+}
+
+#pitcher-flag-field {
+  color: red;
+}
+
+.pitch-type-sub-score-field {
+  top: -250%; /* `top` takes precedence over `bottom` here, so `bottom: 300%;` would not work*/
+  width: 150px;
+}
+
+.slider-indicator {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10px;
+  width: 10px;
+  background-color: rgba(93, 93, 93, 1);
+}
+
+/*******************************************************************************************************************************************************/
+
+#zone-container {
+  position: relative;
+  height: clamp(70vh, 80vh, 90vh);
+  margin: auto;
+}
+
+/**********************************************/
+
+#zone-grid {
+  /* Grid properties */
+  margin: 0 auto; /* `auto` margin horizontally centers element within parent element */
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: solid rgba(76, 0, 255, 1);
+
+  /* Shadow-concerned properties */
+  position: relative; /* Physically grounded as physical entity within normal document workflow */
+  top: 20%;
+  height: 60%;
+  width: 25%;
+  z-index: 2; /* Bring to foreground */
+}
+
+.grid-cell {
+  background-color: rgba(93, 93, 93, 1);
+  border: solid rgba(76, 0, 255, 1);
+}
+
+.grid-sub-score {
+  color: white;
+  font-size: 0.75rem;
+}
+
+/**********************************************/
+
+.shadow-cell {
+  position: absolute; /* Strictly visible entity ; is a physical ghost - not spatially-possessive entity - within normal document workflow */
+  background-color: rgba(93, 93, 93, 1);
+  border: solid rgba(76, 0, 255, 1);
+  z-index: 1; /* Bring to middleground */
+}
+
+.shadow-cell.edge.top {
+  top: 10%;
+  left: 37.25%;
+  height: 10%;
+  width: 25%;
+}
+
+.shadow-cell.edge.left {
+  top: 20%;
+  left: 32%;
+  height: 60%;
+  width: 5%;
+}
+
+.shadow-cell.edge.bottom {
+  top: 80%;
+  left: 37.25%;
+  height: 10%;
+  width: 25%;
+}
+
+.shadow-cell.edge.right {
+  top: 20%;
+  left: 62.25%;
+  height: 60%;
+  width: 5%;
+}
+
+.shadow-cell.corner {
+  height: 10%;
+  width: 5%;
+}
+
+.shadow-cell.corner.top-left {
+  top: 10%;
+  left: 32%;
+}
+
+.shadow-cell.corner.top-right {
+  top: 10%;
+  left: 62.25%;
+}
+
+.shadow-cell.corner.bottom-left {
+  top: 80%;
+  left: 32%;
+}
+
+.shadow-cell.corner.bottom-right {
+  top: 80%;
+  left: 62.25%;
+}
+
+.shadow-sub-score.tight {
+  font-size: 0.5rem;
+  line-height: 0;
+}
+
+/**********************************************/
+
+.zone-waste {
+  height: 100%;
+  width: 45%;
+
+  /* Margin requires full visual positioning context for absolutely positioned elements as they have no inherent physical positioning context */
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(93, 93, 93, 1);
+  border: solid rgba(76, 0, 255, 1);
+  z-index: 0; /* Bring to background */
+}

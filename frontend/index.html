@@ -1,10 +1,203 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <title>Matchup Savant</title>
   </head>
-  <body>
-    <h1>Matchup Savant</h1>
-    <p>Frontend coming soon.</p>
+  <body onload="loadPage()">
+    <header><h1 class="header-text">Matchup Savant</h1></header>
+    <main class="app">
+      <section class="descriptors">
+        <div class="card" id="main-menu">
+          <p class="description" id="welcome-description">
+            Welcome! This is a baseball batter-pitcher matchup calculator. The
+            way it works is: based on respective pitch-type and per-zone
+            run-value (RV/100) splits, a comprehensive matchup score is
+            callibrated, considering both arsenal and location factors for both
+            batter and pitcher. Simply select a batter-pitcher duo and press the
+            'Matchup!' button to generate the matchup score and associated
+            graphics. That's it!
+          </p>
+          <div class="card shrink-top-pad">
+            <h3>Legend</h3>
+            <div id="legend-body">
+              <div class="card shrink-top-pad">
+                <h4>Player Advantage</h4>
+                <div class="legend-entry">
+                  <div class="legend-box" id="batter-legend-box"></div>
+                  <div>(+) Batter</div>
+                </div>
+                <div class="legend-entry">
+                  <div class="legend-box" id="pitcher-legend-box"></div>
+                  <div>(-) Pitcher</div>
+                </div>
+              </div>
+              <div class="card shrink-top-pad">
+                <h4>Run-Value per 100 Pitches (RV/100) Scale</h4>
+                <div class="legend-entry">
+                  <div class="legend-box" id="okay-score-legend-box"></div>
+                  <div>(|0.0|-|0.1|) Okay</div>
+                </div>
+                <div class="legend-entry">
+                  <div class="legend-box" id="good-score-legend-box"></div>
+                  <div>(|0.1|-|0.5|) Good</div>
+                </div>
+                <div class="legend-entry">
+                  <div class="legend-box" id="great-score-legend-box"></div>
+                  <div>(|0.5|-|1.0|) Great</div>
+                </div>
+                <div class="legend-entry">
+                  <div class="legend-box" id="excellent-score-legend-box"></div>
+                  <div>(|1.0+|) Excellent</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="controls">
+        <div class="card" id="dropdown-menu">
+          <template id="dropdown-subject-template">
+            <option
+              class="dropdown-subject"
+              value="select"
+              onclick="resetButton()"
+            >
+              Select
+            </option>
+          </template>
+          <label
+            class="label fixed-color"
+            id="batter-label"
+            for="batter-dropdown"
+            >Batter</label
+          >
+          <select class="dropdown" id="batter-dropdown">
+            <option value="select">Select</option>
+          </select>
+          <label
+            class="label fixed-color"
+            id="pitcher-label"
+            for="pitcher-dropdown"
+            >Pitcher</label
+          >
+          <select class="dropdown" id="pitcher-dropdown">
+            <option value="select">Select</option>
+          </select>
+        </div>
+        <div class="card" id="button-menu">
+          <button id="matchup-button" onclick="matchupButton()">
+            Matchup!
+          </button>
+          <button id="reset-button" onclick="resetButton()">Reset</button>
+        </div>
+      </section>
+      <section class="results">
+        <div class="card" id="score-menu">
+          <h3>
+            Grand-Score:
+            <span class="score dynamic-color" id="grand-score">---</span>
+          </h3>
+          <p>
+            <span class="dynamic-color" id="message-winner">---</span> is
+            projected to have a(n)<span
+              class="dynamic-color"
+              id="message-score-margin"
+              >---</span
+            >
+            advantage over
+            <span class="dynamic-color" id="message-loser">---</span>.
+          </p>
+        </div>
+      </section>
+      <section class="results-ext">
+        <div class="card" id="pitch-sliders-container">
+          <div class="header-text" id="pitch-sliders-header">
+            <h2>Run Value (RV/100) by Usage-Weighted Pitch-Type</h2>
+            <h3>
+              Arsenal-Score:
+              <span class="score dynamic-color" id="arsenal-score">---</span>
+            </h3>
+          </div>
+          <div id="sliders-container">
+            <template id="slider-template">
+              <div class="card pitch-slider">
+                <span class="pitch-type-field">XX</span>
+                <div class="slider-bar">
+                  <div class="slider-flag" id="origin-flag">
+                    <p class="slider-flag-field" id="origin-flag-field">0</p>
+                  </div>
+                  <div class="slider-flag" id="batter-flag">
+                    <p class="slider-flag-field" id="batter-flag-field">2</p>
+                  </div>
+                  <div class="slider-flag" id="pitcher-flag">
+                    <p class="slider-flag-field" id="pitcher-flag-field">-2</p>
+                  </div>
+                  <div class="slider-indicator">
+                    <span
+                      class="slider-flag-field pitch-type-sub-score-field dynamic-color"
+                      >-</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="card" id="strikezone-container">
+          <div class="header-text" id="strikezone-header">
+            <h2>Run Value (RV/100) by Frequency-Weighted Zone Location</h2>
+            <h3>
+              Location-Score:
+              <span class="score dynamic-color" id="location-score">---</span>
+            </h3>
+          </div>
+          <div id="zone-container">
+            <div id="zone-grid">
+              <template id="grid-cell-template">
+                <div class="grid-cell">
+                  <span class="grid-sub-score fixed-color">-</span>
+                </div>
+              </template>
+            </div>
+            <div id="zone-shadow">
+              <div class="shadow-cell edge top">
+                <span class="shadow-sub-score fixed-color">-</span>
+              </div>
+              <div class="shadow-cell edge bottom">
+                <span class="shadow-sub-score fixed-color">-</span>
+              </div>
+              <div class="shadow-cell edge left">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell edge right">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell corner top-left">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell corner top-right">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell corner bottom-left">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell corner bottom-right">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+            </div>
+            <div class="zone-waste">
+              <span class="waste-sub-score fixed-color">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <button id="view-mode-toggle" onclick="darkLightMode()">
+        <span id="view-mode-flag">Light</span>
+      </button>
+    </footer>
   </body>
 </html>

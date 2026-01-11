@@ -1,0 +1,18 @@
+Bo Bichette Pitch Type Data (Statcast): https://www.fangraphs.com/players/bo-bichette/19612/stats/batting#pitch-values 
+
+Bo Bichette Zone Data: https://baseballsavant.mlb.com/illustrator?playerId=666182&playerType=batter&name=Bo%20Bichette&tabSelection=0&shape=square&shapeName=Square%20(Instagram)&subTitle=&chartType=zoneChart-woba&chartName=Zone%20-%20wOBA&pitcherThrows=&batterStands=&plateAppearanceResults=[]&pitchTypes=[]&seasonType=[%22R%22]&pitchResults=[]&facingPlayer=[]&balls=[]&battedBallType=[]&years=[2025]&strikes=[]&outs=[]&selectedGames=[]&homeTeam=[]&awayTeam=[]&vsTeam=[]&exitVelocityGT=0&exitVelocityLT=125&pitchVelocityGT=0&pitchVelocityLT=105&launchAngleGT=-90&launchAngleLT=90&perspective=catcher&venue=7
+
+Bryan Woo Pitch Type Data: https://www.fangraphs.com/players/bryan-woo/30279/stats/pitching + https://baseballsavant.mlb.com/savant-player/bryan-woo-693433?stats=statcast-r-pitching-mlb 
+
+Bryan Woo Zone Data: https://baseballsavant.mlb.com/illustrator?playerId=693433&playerType=pitcher&name=Bryan%20Woo&tabSelection=0&shape=square&shapeName=Square%20(Instagram)&subTitle=&chartType=zoneChart-woba&chartName=Zone%20-%20wOBA&pitcherThrows=&batterStands=&plateAppearanceResults=[]&pitchTypes=[]&seasonType=[%22R%22]&pitchResults=[]&facingPlayer=[]&balls=[]&battedBallType=[]&years=[2025]&strikes=[]&outs=[]&selectedGames=[]&homeTeam=[]&awayTeam=[]&vsTeam=[]&exitVelocityGT=0&exitVelocityLT=125&pitchVelocityGT=0&pitchVelocityLT=105&launchAngleGT=-90&launchAngleLT=90&perspective=catcher&venue=7 + https://baseballsavant.mlb.com/illustrator?playerId=693433&playerType=pitcher&name=Bryan%20Woo&tabSelection=0&shape=square&shapeName=Square%20(Instagram)&subTitle=&chartType=zoneChart-percent&chartName=Zone%20-%20Pitch%20Percent&pitcherThrows=&batterStands=&plateAppearanceResults=[]&pitchTypes=[]&seasonType=[%22R%22]&pitchResults=[]&facingPlayer=[]&balls=[]&battedBallType=[]&years=[2025]&strikes=[]&outs=[]&selectedGames=[]&homeTeam=[]&awayTeam=[]&vsTeam=[]&exitVelocityGT=0&exitVelocityLT=125&pitchVelocityGT=0&pitchVelocityLT=105&launchAngleGT=-90&launchAngleLT=90&perspective=catcher&venue=7
+
+2025 League Average wOBA: https://baseballsavant.mlb.com/leaderboard/expected_statistics 
+
+League-Wide wOBA data: https://baseballsavant.mlb.com/leaderboard/expected_statistics?type=batter&year=2025&position=&team=&filterType=bip&min=25 + https://baseballsavant.mlb.com/leaderboard/expected_statistics?type=pitcher&year=2025&position=&team=&filterType=bip&min=25 
+
+League-Wide RVp100 data: https://www.fangraphs.com/leaders/major-league?type=14&pos=all&stats=bat&month=0 + https://www.fangraphs.com/leaders/major-league?type=14&pos=all&stats=pit&month=0 
+
+League-Wide (Neutral) Pitch Type Frequency Data: https://www.fangraphs.com/leaders-legacy.aspx?pos=all&stats=pit&lg=all&qual=0&type=4&season=2025&month=0&season1=2024&ind=0&team=0,ss&rost=1&age=0&filter=&players=0&startdate=2024-01-01&enddate=2025-12-31&sort=2,d 
+    - no SI data, SI conflated into FF
+
+Mass Pitch Type Data (baseballsavant): https://baseballsavant.mlb.com/statcast_search 
