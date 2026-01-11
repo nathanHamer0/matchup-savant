@@ -1,30 +1,5 @@
 from pandas import DataFrame
 
-# from scripts.compute_empirical_distribution import percentalize_matchup [LOOK: currently disabled]
-
-# Update normality scale after fielding yields across database [TODO]
-# See sources.txt
-# Computed via scripts/compute_league_stats.py
-# MEAN_RUN_VAL_PER_100 = 0.000
-# BATTER_STD_RUN_VAL_PER_100 = {
-#     'ff': 0.938,
-#     'fc': 2.077,
-#     'fs': 2.573,
-#     'si': 1.419,
-#     'sl': 0.956,
-#     'cu': 1.650,
-#     'ch': 1.678
-# }
-# PITCHER_STD_RUN_VAL_PER_100 = {
-#     'ff': 0.892,
-#     'FC': 4.612,
-#     'FS': 2.585,
-#     'SI': 1.810,
-#     'SL': 1.671,
-#     'CU': 1.363,
-#     'CH': 1.503
-# }
-
 # Arbitraraly selected
 PITCH_TYPE_WEIGHT = 0.5
 ZONE_WEIGHT = 0.5

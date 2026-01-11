@@ -3,26 +3,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
-# from fastapi.middleware.cors import CORSMiddleware
-
 import matchup
 import data_loader
 import name_utils
 
-# app = FastAPI(title="Matchup Savant")
 app = FastAPI()
 
-# # Connect frontend and backend servers Via Cross-Origin-Resource-Sharing (CORS) middleware
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=[
-#         "http://localhost:8080",
-#         "https://nathanhamer0.github.io",
-#     ],  # frontend origin
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+# ** Configure API routes **
 
 
 @app.get("/health")
