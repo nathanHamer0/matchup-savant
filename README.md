@@ -40,6 +40,8 @@ I wanted to combine:
 
 - https://matchup-savant.onrender.com/
 
+**Note:** The first load may take 30-60 seconds as the free tier render service spins up from sleep.
+
 ## Project Structure
 
 backend/
