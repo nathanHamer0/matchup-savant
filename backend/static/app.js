@@ -7,9 +7,7 @@ async function matchupButton() {
   const pitcher = document.getElementById("pitcher-dropdown").value;
 
   // *** Call API ***
-  const response = await fetch(
-    `http://localhost:8000/matchup?batter=${batter}&pitcher=${pitcher}`
-  );
+  const response = await fetch(`/matchup?batter=${batter}&pitcher=${pitcher}`);
   const data = await response.json();
 
   // *** Configure returns ****
@@ -255,7 +253,7 @@ async function resetButton(fullReset = true) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 async function loadDropdowns() {
-  const response = await fetch(`http://localhost:8000/players`);
+  const response = await fetch(`/players`);
   const data = await response.json();
   const batters = data.batters;
   const pitchers = data.pitchers;

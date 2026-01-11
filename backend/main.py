@@ -1,37 +1,45 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
+# from fastapi.middleware.cors import CORSMiddleware
+
 from . import matchup, data_loader, name_utils
 
-app = FastAPI(title="Matchup Savant")
+# app = FastAPI(title="Matchup Savant")
+app = FastAPI()
 
-# Connect frontend and backend servers Via Cross-Origin-Resource-Sharing (CORS) middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:8080",
-        "https://nathanhamer0.github.io",
-    ],  # frontend origin
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# # Connect frontend and backend servers Via Cross-Origin-Resource-Sharing (CORS) middleware
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=[
+#         "http://localhost:8080",
+#         "https://nathanhamer0.github.io",
+#     ],  # frontend origin
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 
 @app.get("/health")
-def health() -> dict:
+async def health() -> dict:
     return {"status": "ok"}
+    pass
 
 
 @app.get("/players")
-def get_players() -> dict:
+async def get_players() -> dict:
     return {
         "batters": data_loader.get_all_batters(),
         "pitchers": data_loader.get_all_pitchers(),
     }
+    pass
 
 
 @app.get("/matchup")
-def get_matchup(batter: str, pitcher: str) -> dict:
+async def get_matchup(batter: str, pitcher: str) -> dict:
     batter_pitch_types, batter_zone = data_loader.load_batter(
         name_utils.snake_to_inverted_name(batter)
     )
@@ -46,3 +54,14 @@ def get_matchup(batter: str, pitcher: str) -> dict:
         pitcher_zone,
         total_pitches,
     )
+    pass
+
+
+# Mount static files (CSS, JS)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+# Serve index.html at root
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")
