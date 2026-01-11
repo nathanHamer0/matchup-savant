@@ -38,11 +38,23 @@ I wanted to combine:
 
 ## Live demo
 
-- https://nathanHamer0.github.io/matchup-savant/ [TODO]
+- https://nathanHamer0.github.io/matchup-savant/
 
-## Project structure [TODO]
+## Project Structure
 
-- ...
+index.html
+style.css
+app.js
+backend/
+├── main.py
+├── data_loader.py
+├── matchup.py
+├── name_utils.py
+├── data/
+├──── ...
+scripts/
+├── validate_matchup.py
+...
 
 ## Future improvements
 
