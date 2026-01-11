@@ -40,7 +40,10 @@ I wanted to combine:
 
 - https://matchup-savant.onrender.com/
 
-**Note:** The first load may take 30-60 seconds as the free tier render service spins up from sleep.
+**Notes:**
+
+- The first load may take 30-60 seconds as the free tier render service spins up from sleep.
+- Due to not-yet-optimized code, matchup loads may take 5-10 seconds per load.
 
 ## Project Structure
 
@@ -61,6 +64,7 @@ scripts/
 
 ## Future improvements
 
+- Optimize matchup load speeds
 - Implementing handedness splits
 - Handling missing data for small-sample players in terms of UI representation
 - Caching player data
