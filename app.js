@@ -87,12 +87,12 @@ async function matchupButton() {
       p + " (" + String((pitchFreqs[p] * 100).toFixed(1)) + "%)";
     if (s > 2.0) {
       sliderIndicators[i].style.left = "100%";
-      document.getElementsByClassName("sliders-container")[
+      document.getElementById("sliders-container").children[
         i
       ].style.outlineColor = "blue";
     } else if (s < -2.0) {
       sliderIndicators[i].style.left = "0%";
-      document.getElementsByClassName("sliders-container")[
+      document.getElementById("sliders-container").children[
         i
       ].style.outlineColor = "red";
     } else {
@@ -100,9 +100,7 @@ async function matchupButton() {
     }
 
     // Configure color-coding of slider-indicators
-    if (Math.abs(s) >= 2.0) {
-      sliderIndicators[i].style.backgroundColor = "blue";
-    } else if (Math.abs(s) >= 1.0) {
+    if (Math.abs(s) >= 1.0) {
       sliderIndicators[i].style.backgroundColor = "rgb(0, 255, 0)";
     } else if (Math.abs(s) >= 0.5) {
       sliderIndicators[i].style.backgroundColor = "rgb(246, 255, 0)";
@@ -163,9 +161,7 @@ async function matchupButton() {
     }
 
     // Configure color-coding of cell borders
-    if (Math.abs(s) >= 2.0) {
-      cells[i].style.borderColor = "blue";
-    } else if (Math.abs(s) >= 1.0) {
+    if (Math.abs(s) >= 1.0) {
       cells[i].style.borderColor = "rgb(0, 255, 0)";
     } else if (Math.abs(s) >= 0.5) {
       cells[i].style.borderColor = "rgb(246, 255, 0)";
@@ -323,80 +319,81 @@ async function loadCells() {
   }
 }
 
-async function darkLightMode() {
-  // Get current theme color through default-colored text
-  var currentMode = document.querySelectorAll(
-    "*:not(.fixed-color, .dynamic-color)"
-  )[0].style.color;
+// LOOK: Currently disabled.
+// async function darkLightMode() {
+//   // Get current theme color through default-colored text
+//   var currentMode = document.querySelectorAll(
+//     "*:not(.fixed-color, .dynamic-color)"
+//   )[0].style.color;
 
-  // White-to-black
-  if (currentMode == "white") {
-    // Set all default-colored elements to theme color
-    for (const elem of document.querySelectorAll(
-      "*:not(.fixed-color, .dynamic-color)"
-    )) {
-      elem.style.color = "black";
-    }
+//   // White-to-black
+//   if (currentMode == "white") {
+//     // Set all default-colored elements to theme color
+//     for (const elem of document.querySelectorAll(
+//       "*:not(.fixed-color, .dynamic-color)"
+//     )) {
+//       elem.style.color = "black";
+//     }
 
-    // Set backgrounds to theme color
-    document.body.style.backgroundColor = "black";
-    for (const elem of document.getElementsByClassName("card")) {
-      elem.style.background =
-        "linear-gradient(black 30%, rgba(76, 0, 255, 0.6) 100%)";
-    }
+//     // Set backgrounds to theme color
+//     document.body.style.backgroundColor = "black";
+//     for (const elem of document.getElementsByClassName("card")) {
+//       elem.style.background =
+//         "linear-gradient(black 30%, rgba(76, 0, 255, 0.6) 100%)";
+//     }
 
-    // Set all default-colored text to inverse of theme color
-    for (const elem of document.querySelectorAll(
-      "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
-    )) {
-      elem.style.color = "white";
-    }
+//     // Set all default-colored text to inverse of theme color
+//     for (const elem of document.querySelectorAll(
+//       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
+//     )) {
+//       elem.style.color = "white";
+//     }
 
-    // Set dark-background elements to white (as they are falsely included in the first block)
-    for (const elem of document.getElementsByClassName("grid-sub-score")) {
-      elem.style.color = "white";
-    }
+//     // Set dark-background elements to white (as they are falsely included in the first block)
+//     for (const elem of document.getElementsByClassName("grid-sub-score")) {
+//       elem.style.color = "white";
+//     }
 
-    // Reconfigure theme toggle
-    document.getElementById("view-mode-flag").innerText = "Light";
-    document.getElementById("view-mode-flag").style.color = "white";
-    document.getElementById("view-mode-toggle").style.backgroundColor = "black";
+//     // Reconfigure theme toggle
+//     document.getElementById("view-mode-flag").innerText = "Light";
+//     document.getElementById("view-mode-flag").style.color = "white";
+//     document.getElementById("view-mode-toggle").style.backgroundColor = "black";
 
-    // Black-to-white
-  } else {
-    // Set all default-colored elements to theme color
-    for (const elem of document.querySelectorAll(
-      "*:not(.fixed-color, .dynamic-color)"
-    )) {
-      elem.style.color = "white";
-    }
+//     // Black-to-white
+//   } else {
+//     // Set all default-colored elements to theme color
+//     for (const elem of document.querySelectorAll(
+//       "*:not(.fixed-color, .dynamic-color)"
+//     )) {
+//       elem.style.color = "white";
+//     }
 
-    // Set backgrounds to theme color
-    document.body.style.backgroundColor = "white";
-    for (const elem of document.getElementsByClassName("card")) {
-      elem.style.background =
-        "linear-gradient(white 30%, rgba(76, 0, 255, 0.6) 100%)";
-    }
+//     // Set backgrounds to theme color
+//     document.body.style.backgroundColor = "white";
+//     for (const elem of document.getElementsByClassName("card")) {
+//       elem.style.background =
+//         "linear-gradient(white 30%, rgba(76, 0, 255, 0.6) 100%)";
+//     }
 
-    // Set all default-colored text to inverse of theme color
-    for (const elem of document.querySelectorAll(
-      "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
-    )) {
-      elem.style.color = "black";
-    }
+//     // Set all default-colored text to inverse of theme color
+//     for (const elem of document.querySelectorAll(
+//       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
+//     )) {
+//       elem.style.color = "black";
+//     }
 
-    // Set light-background elements to black (as they are falsely included in the first block)
-    document.getElementById("matchup-button").style.color = "black";
-    document.getElementById("reset-button").style.color = "black";
-    document.getElementById("batter-dropdown").style.color = "black";
-    document.getElementById("pitcher-dropdown").style.color = "black";
+//     // Set light-background elements to black (as they are falsely included in the first block)
+//     document.getElementById("matchup-button").style.color = "black";
+//     document.getElementById("reset-button").style.color = "black";
+//     document.getElementById("batter-dropdown").style.color = "black";
+//     document.getElementById("pitcher-dropdown").style.color = "black";
 
-    // Reconfigure theme toggle
-    document.getElementById("view-mode-flag").innerText = "Dark";
-    document.getElementById("view-mode-flag").style.color = "black";
-    document.getElementById("view-mode-toggle").style.backgroundColor = "white";
-  }
-}
+//     // Reconfigure theme toggle
+//     document.getElementById("view-mode-flag").innerText = "Dark";
+//     document.getElementById("view-mode-flag").style.color = "black";
+//     document.getElementById("view-mode-toggle").style.backgroundColor = "white";
+//   }
+// }
 
 async function loadPage() {
   loadDropdowns();

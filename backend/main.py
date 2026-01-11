@@ -7,7 +7,10 @@ app = FastAPI(title="Matchup Savant")
 # Connect frontend and backend servers Via Cross-Origin-Resource-Sharing (CORS) middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # frontend origin
+    allow_origins=[
+        "http://localhost:8080",
+        "https://nathanhamer0.github.io",
+    ],  # frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

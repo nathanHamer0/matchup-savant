@@ -147,13 +147,16 @@ body {
   color: rgb(255, 0, 0);
 }
 
-#view-mode-toggle {
+/* LOOK: Currently disabled */
+/* #view-mode-toggle {
   background-color: black;
 }
 
-#view-mode-flag {
+/* LOOK: Currently disabled */
+/* #view-mode-flag {
   color: white;
 }
+*/
 
 /*******************************************************************************************************************************************************/
 
@@ -310,7 +313,7 @@ body {
 
 .shadow-cell.edge.right {
   top: 20%;
-  left: 62.25%;
+  left: 62.55%;
   height: 60%;
   width: 5%;
 }
@@ -327,7 +330,7 @@ body {
 
 .shadow-cell.corner.top-right {
   top: 10%;
-  left: 62.25%;
+  left: 62.55%;
 }
 
 .shadow-cell.corner.bottom-left {
@@ -337,7 +340,7 @@ body {
 
 .shadow-cell.corner.bottom-right {
   top: 80%;
-  left: 62.25%;
+  left: 62.55%;
 }
 
 .shadow-sub-score.tight {

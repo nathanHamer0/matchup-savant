@@ -59,4 +59,5 @@ scripts/
 ## Future improvements
 
 - Implementing handedness splits
+- Handling missing data for small-sample players in terms of UI representation
 - Caching player data
