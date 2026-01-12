@@ -64,7 +64,7 @@ scripts/
 
 ## Future improvements
 
-- Improve UI
+- Improve UI, at graphics specifically
 - Optimize matchup load speeds
 - Implementing handedness splits
 - Handling missing data for small-sample players in terms of UI representation
