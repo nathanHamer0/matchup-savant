@@ -231,6 +231,7 @@ body {
 .pitch-type-sub-score-field {
   top: -250%; /* `top` takes precedence over `bottom` here, so `bottom: 300%;` would not work*/
   width: 150px;
+  color: rgba(93, 93, 93, 1);
 }
 
 .slider-indicator {
@@ -243,6 +244,7 @@ body {
   height: 10px;
   width: 10px;
   background-color: rgba(93, 93, 93, 1);
+  border: solid 2.5px black;
 }
 
 /*******************************************************************************************************************************************************/
@@ -261,19 +263,19 @@ body {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
-  border: solid rgba(76, 0, 255, 1);
+  border: solid 5px black;
 
   /* Shadow-concerned properties */
   position: relative; /* Physically grounded as physical entity within normal document workflow */
   top: 20%;
   height: 60%;
   width: 25%;
-  z-index: 2; /* Bring to foreground */
+  z-index: 3; /* Bring to foreground */
 }
 
 .grid-cell {
   background-color: rgba(93, 93, 93, 1);
-  border: solid rgba(76, 0, 255, 1);
+  border: solid 2.5px rgba(76, 0, 255, 1);
 }
 
 .grid-sub-score {
@@ -283,64 +285,71 @@ body {
 
 /**********************************************/
 
+#zone-shadow {
+  margin: 0 auto;
+  top: 10%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: dashed 5px black;
+  position: absolute;
+  height: 80%;
+  width: 35%;
+  z-index: 2; /* Bring to middleground */
+}
+
 .shadow-cell {
   position: absolute; /* Strictly visible entity ; is a physical ghost - not spatially-possessive entity - within normal document workflow */
   background-color: rgba(93, 93, 93, 1);
-  border: solid rgba(76, 0, 255, 1);
-  z-index: 1; /* Bring to middleground */
+  border: solid 2.5px rgba(76, 0, 255, 1);
+  z-index: 1;
 }
 
 .shadow-cell.edge.top {
-  top: 10%;
-  left: 37.25%;
-  height: 10%;
-  width: 25%;
+  left: 14.29%; /* move 5% relative to zone-container, zone-shadow spans 35% of zone-container: %5/35% = 1/7 = .1429; i.e., move 14.29% relative to zone-shadow */
+  height: 12.5%; /* take 10% of zone-container, zone-shadow spans 80% of zone-container: %10/80% = 1/8 = .125; i.e., take 12.5% of zone-shadow */
+  width: 71.43%; /* take 25% of zone-container, zone-shadow spans 35% of zone-container: %25/35% = 5/7 = .7143; i.e., take 71.43% of zone-shadow */
+  text-align: center; /* Otherwise zone-grid overlays text */
 }
 
 .shadow-cell.edge.left {
-  top: 20%;
-  left: 32%;
-  height: 60%;
-  width: 5%;
+  top: 12.5%;
+  height: 75%; /* take 60% of zone-container, zone-shadow spans 80% of zone-container: %60/80% = 6/8 = .75; i.e., move 75% relative to zone-shadow */
+  width: 14.29%;
 }
 
 .shadow-cell.edge.bottom {
-  top: 80%;
-  left: 37.25%;
-  height: 10%;
-  width: 25%;
+  top: 87.5%; /* move 70% relative to zone-container, zone-shadow spans 80% of zone-container: %70/80% = 7/8 = .875; i.e., move 87.5% relative to zone-shadow */
+  left: 14.29%;
+  height: 12.5%;
+  width: 71.43%;
+  text-align: center; /* Otherwise zone-grid overlays text */
 }
 
 .shadow-cell.edge.right {
-  top: 20%;
-  left: 62.55%;
-  height: 60%;
-  width: 5%;
+  top: 12.5%;
+  left: 85.71%; /* move 30% relative to zone-container, zone-shadow spans 35% of zone-container: %30/35% = 6/7 = .8571; i.e., move 85.71% relative to zone-shadow */
+  height: 75%;
+  width: 14.29%;
+  text-align: center; /* Otherwise zone-grid overlays text */
 }
 
 .shadow-cell.corner {
-  height: 10%;
-  width: 5%;
-}
-
-.shadow-cell.corner.top-left {
-  top: 10%;
-  left: 32%;
+  height: 12.5%;
+  width: 14.29%;
 }
 
 .shadow-cell.corner.top-right {
-  top: 10%;
-  left: 62.55%;
+  left: 85.71%;
 }
 
 .shadow-cell.corner.bottom-left {
-  top: 80%;
-  left: 32%;
+  top: 87.5%;
 }
 
 .shadow-cell.corner.bottom-right {
-  top: 80%;
-  left: 62.55%;
+  top: 87.5%;
+  left: 85.71%;
 }
 
 .shadow-sub-score.tight {
@@ -362,7 +371,7 @@ body {
   left: 0;
   right: 0;
 
+  border: dotted 5px black;
   background-color: rgba(93, 93, 93, 1);
-  border: solid rgba(76, 0, 255, 1);
   z-index: 0; /* Bring to background */
 }

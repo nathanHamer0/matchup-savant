@@ -12,11 +12,11 @@
         <div class="card" id="main-menu">
           <p class="description" id="welcome-description">
             Welcome! This is a baseball batter-pitcher matchup calculator. The
-            way it works is: based on respective perpitch-type and per-zone
-            run-value (RV/100) splits, a comprehensive matchup score is
-            calibrated, considering both arsenal and location factors for both
-            batter and pitcher. Simply select a batter-pitcher duo and press the
-            'Matchup!' button to generate the matchup score and associated
+            way it works is: based on respective per-pitch-type and per-zone
+            run-value (RV/100) splits for both batter and pitcher, a
+            comprehensive matchup score is calibrated, considering both arsenal
+            and location factors. Simply select a batter-pitcher duo and press
+            the 'Matchup!' button to generate the matchup score and associated
             graphics. That's it!
           </p>
           <div class="card shrink-top-pad">
@@ -99,12 +99,13 @@
             Grand-Score:
             <span class="score dynamic-color" id="grand-score">---</span>
           </h3>
-          <p>
+          <p id="message-score">
             <span class="dynamic-color" id="message-winner">---</span> is
             projected to have a(n)<span
               class="dynamic-color"
               id="message-score-margin"
-              >---</span
+            >
+              ---</span
             >
             advantage over
             <span class="dynamic-color" id="message-loser">---</span>.
@@ -137,7 +138,7 @@
                   <div class="slider-indicator">
                     <span
                       class="slider-flag-field pitch-type-sub-score-field dynamic-color"
-                      >-</span
+                      >---</span
                     >
                   </div>
                 </div>
@@ -152,6 +153,10 @@
               Location-Score:
               <span class="score dynamic-color" id="location-score">---</span>
             </h3>
+            <h4>Legend</h4>
+            <p>___ Strike-Zone</p>
+            <p>--- Shadow-Zone</p>
+            <p>... Waste-Zone</p>
           </div>
           <div id="zone-container">
             <div id="zone-grid">
@@ -162,11 +167,14 @@
               </template>
             </div>
             <div id="zone-shadow">
+              <div class="shadow-cell corner top-left">
+                <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
               <div class="shadow-cell edge top">
                 <span class="shadow-sub-score fixed-color">-</span>
               </div>
-              <div class="shadow-cell edge bottom">
-                <span class="shadow-sub-score fixed-color">-</span>
+              <div class="shadow-cell corner top-right">
+                <span class="shadow-sub-score fixed-color tight">-</span>
               </div>
               <div class="shadow-cell edge left">
                 <span class="shadow-sub-score fixed-color tight">-</span>
@@ -174,14 +182,11 @@
               <div class="shadow-cell edge right">
                 <span class="shadow-sub-score fixed-color tight">-</span>
               </div>
-              <div class="shadow-cell corner top-left">
-                <span class="shadow-sub-score fixed-color tight">-</span>
-              </div>
-              <div class="shadow-cell corner top-right">
-                <span class="shadow-sub-score fixed-color tight">-</span>
-              </div>
               <div class="shadow-cell corner bottom-left">
                 <span class="shadow-sub-score fixed-color tight">-</span>
+              </div>
+              <div class="shadow-cell edge bottom">
+                <span class="shadow-sub-score fixed-color">-</span>
               </div>
               <div class="shadow-cell corner bottom-right">
                 <span class="shadow-sub-score fixed-color tight">-</span>

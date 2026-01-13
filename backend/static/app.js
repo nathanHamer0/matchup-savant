@@ -1,4 +1,15 @@
 const NUM_SLIDERS = 4;
+const PITCH_CODINGS = {
+  ff: "Four-Seam Fastball",
+  si: "Sinker",
+  fc: "Cutter",
+  fs: "Splitter",
+  ch: "Changeup",
+  sl: "Slider",
+  cu: "Curveball",
+  st: "Sweeper",
+  kc: "Knuckle-Curve",
+};
 
 /////////////////////////////////////////////////////////////////////////////////////
 async function matchupButton() {
@@ -14,6 +25,17 @@ async function matchupButton() {
 
   // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
   resetButton(false);
+
+  if (
+    !data.grand_score |
+    !data.grand_pitch_type_score |
+    !data.grand_zone_score |
+    (Object.keys(data.zone_scores).length != 18)
+  ) {
+    document.getElementById("message-score").innerText =
+      "Insufficient player data. Try another matchup.";
+    return;
+  }
 
   // Configure score and message
   const scoreSpan = document.getElementById("grand-score");
@@ -70,7 +92,7 @@ async function matchupButton() {
   // Load additional sliders (if necessary)
   const scoredPitchTypes = data.pitch_type_scores;
   const pitchFreqs = data.pitch_type_frequencies;
-  loadSliders(Object.keys(scoredPitchTypes).length + 1 - NUM_SLIDERS);
+  loadSliders(Object.keys(scoredPitchTypes).length - NUM_SLIDERS);
 
   // Configure sliders
   const pitchLabels = document.getElementsByClassName("pitch-type-field");
@@ -82,17 +104,15 @@ async function matchupButton() {
   for (const [p, s] of Object.entries(scoredPitchTypes)) {
     // Configure location of slider-indicators
     pitchLabels[i].innerText =
-      p + " (" + String((pitchFreqs[p] * 100).toFixed(1)) + "%)";
+      PITCH_CODINGS[p] + " (" + String((pitchFreqs[p] * 100).toFixed(1)) + "%)";
     if (s > 2.0) {
       sliderIndicators[i].style.left = "100%";
-      document.getElementById("sliders-container").children[
-        i
-      ].style.outlineColor = "blue";
+      document.getElementsByClassName("pitch-slider")[i].style.border =
+        "solid 5px blue";
     } else if (s < -2.0) {
-      sliderIndicators[i].style.left = "0%";
-      document.getElementById("sliders-container").children[
-        i
-      ].style.outlineColor = "red";
+      sliderIndicators[i].style.left = "-100%";
+      document.getElementsByClassName("pitch-slider")[i].style.border =
+        "solid 5px red";
     } else {
       sliderIndicators[i].style.left = String(Math.ceil(50 * s)) + "%"; // s' = s(100/2); always round up to avoid 0%'s
     }
@@ -112,10 +132,14 @@ async function matchupButton() {
     pitchTypeSubScores[i].innerText = String(s.toFixed(3)) + " RV/100";
     if (s > 0.0) {
       pitchTypeSubScores[i].style.color = "blue";
-      sliderIndicators[i].style.outlineColor = "blue";
+      sliderIndicators[i].style.borderColor = "blue";
     } else if (s < 0.0) {
       pitchTypeSubScores[i].style.color = "red";
-      sliderIndicators[i].style.outlineColor = "red";
+      sliderIndicators[i].style.borderColor = "red";
+    }
+    // (Akwardly) fit slider sub-scoring to screen
+    if (s > 1.5) {
+      pitchTypeSubScores[i].style.left = "-150px";
     }
 
     i++;
@@ -194,14 +218,28 @@ async function resetButton(fullReset = true) {
     elem.style.color = "rgba(93, 93, 93, 1)";
     elem.innerText = "---";
   }
+
   if (fullReset) {
     document.getElementById("batter-dropdown").value = "select";
     document.getElementById("pitcher-dropdown").value = "select";
   }
 
+  if (
+    document.getElementById("message-score").innerText ==
+    "Insufficient player data. Try another matchup."
+  ) {
+    document.getElementById("message-score").innerHTML =
+      '<span class="dynamic-color" id="message-winner">---</span> is projected to have a(n)<span class="dynamic-color" id="message-score-margin"> ---</span> advantage over <span class="dynamic-color" id="message-loser">---</span>.';
+  }
+
   unloadSliders();
 
-  const pitchLabels = document.getElementsByClassName("pitch-field");
+  const pitchSliders = document.getElementsByClassName("pitch-slider");
+  for (const s of pitchSliders) {
+    s.border = "";
+  }
+
+  const pitchLabels = document.getElementsByClassName("pitch-type-field");
   for (const l of pitchLabels) {
     l.innerText = "XX";
   }
@@ -216,13 +254,15 @@ async function resetButton(fullReset = true) {
 
   const sliderIndicators = document.getElementsByClassName("slider-indicator");
   for (const i of sliderIndicators) {
-    i.style.outlineColor = "gray";
-    i.style.left = "50%";
+    i.style.backgroundColor = "rgba(93, 93, 93, 1)";
+    i.style.borderColor = "black";
+    i.style.left = "0";
   }
 
   const gridCells = document.getElementsByClassName("grid-cell");
   for (const c of gridCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
+    c.style.borderColor = "rgba(76, 0, 255, 1)";
   }
   const gridSubScores = document.getElementsByClassName("grid-sub-score");
   for (const c of gridSubScores) {
@@ -233,6 +273,7 @@ async function resetButton(fullReset = true) {
   const shadowCells = document.getElementsByClassName("shadow-cell");
   for (const c of shadowCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
+    c.style.borderColor = "rgba(76, 0, 255, 1)";
   }
   const shadowSubScores = document.getElementsByClassName("shadow-sub-score");
   for (const c of shadowSubScores) {
@@ -243,6 +284,7 @@ async function resetButton(fullReset = true) {
   const wasteCells = document.getElementsByClassName("zone-waste");
   for (const c of wasteCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
+    c.style.borderColor = "black";
   }
   const wasteSubScores = document.getElementsByClassName("waste-sub-score");
   for (const c of wasteSubScores) {
@@ -298,7 +340,7 @@ async function loadSliders(n) {
 async function unloadSliders() {
   const sliderContainer = document.getElementById("sliders-container");
   const sliders = sliderContainer.children;
-  while (sliders.length > 4) {
+  while (sliders.length > 5) {
     sliders[1].remove();
   }
 }
