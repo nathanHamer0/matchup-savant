@@ -40,10 +40,10 @@ async function matchupButton() {
     !data.grand_zone_score |
     (Object.keys(data.zone_scores).length != 18)
   ) {
-    for (const elem of document.getElementsByClassName("standard-message")) {
+    for (const elem of document.getElementsByClassName("load-message")) {
       elem.style.display = "none";
     }
-    for (const elem of document.getElementByClassName("fail-message")) {
+    for (const elem of document.getElementsByClassName("fail-message")) {
       elem.style.display = "block";
     }
     return;
