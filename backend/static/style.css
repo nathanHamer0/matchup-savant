@@ -310,7 +310,7 @@ body {
 }
 
 .grid-cell {
-  background-color: rgba(93, 93, 93, 1);
+  background-color: rgb(55, 55, 55);
   border: solid 2.5px rgba(76, 0, 255, 1);
 }
 
@@ -336,7 +336,7 @@ body {
 
 .shadow-cell {
   position: absolute; /* Strictly visible entity ; is a physical ghost - not spatially-possessive entity - within normal document workflow */
-  background-color: rgba(93, 93, 93, 1);
+  background-color: rgb(55, 55, 55);
   border: solid 2.5px rgba(76, 0, 255, 1);
   z-index: 1;
 }
@@ -408,6 +408,6 @@ body {
   right: 0;
 
   border: dotted 5px black;
-  background-color: rgba(93, 93, 93, 1);
+  background-color: rgb(55, 55, 55);
   z-index: 0; /* Bring to background */
 }
