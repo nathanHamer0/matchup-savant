@@ -43,7 +43,7 @@ async function matchupButton() {
     for (const elem of document.getElementsByClassName("standard-message")) {
       elem.style.display = "none";
     }
-    for (const elem of document.getElementById("fail-message")) {
+    for (const elem of document.getElementByClassName("fail-message")) {
       elem.style.display = "block";
     }
     return;
