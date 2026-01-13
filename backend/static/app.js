@@ -32,8 +32,8 @@ async function matchupButton() {
     !data.grand_zone_score |
     (Object.keys(data.zone_scores).length != 18)
   ) {
-    document.getElementById("message-score").innerText =
-      "Insufficient player data. Try another matchup.";
+    document.getElementById("standard-message").style.display = "none";
+    document.getElementById("fail-message").style.display = "block";
     return;
   }
 
@@ -92,7 +92,10 @@ async function matchupButton() {
   // Load additional sliders (if necessary)
   const scoredPitchTypes = data.pitch_type_scores;
   const pitchFreqs = data.pitch_type_frequencies;
-  loadSliders(Object.keys(scoredPitchTypes).length - NUM_SLIDERS);
+  loadSliders(
+    Object.keys(scoredPitchTypes).length -
+      document.getElementsByClassName("pitch-slider").length
+  );
 
   // Configure sliders
   const pitchLabels = document.getElementsByClassName("pitch-type-field");
@@ -209,6 +212,8 @@ async function matchupButton() {
 
     idx++;
   }
+
+  unloadUnusedSliders();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -224,19 +229,16 @@ async function resetButton(fullReset = true) {
     document.getElementById("pitcher-dropdown").value = "select";
   }
 
-  if (
-    document.getElementById("message-score").innerText ==
-    "Insufficient player data. Try another matchup."
-  ) {
-    document.getElementById("message-score").innerHTML =
-      '<span class="dynamic-color" id="message-winner">---</span> is projected to have a(n)<span class="dynamic-color" id="message-score-margin"> ---</span> advantage over <span class="dynamic-color" id="message-loser">---</span>.';
+  if (document.getElementById("standard-message").style.display == "none") {
+    document.getElementById("fail-message").style.display = "none";
+    document.getElementById("standard-message").style.display = "block";
   }
 
   unloadSliders();
 
   const pitchSliders = document.getElementsByClassName("pitch-slider");
   for (const s of pitchSliders) {
-    s.border = "";
+    s.style.border = "";
   }
 
   const pitchLabels = document.getElementsByClassName("pitch-type-field");
@@ -337,11 +339,26 @@ async function loadSliders(n) {
   }
 }
 
-async function unloadSliders() {
+async function unloadSliders(n = 0) {
   const sliderContainer = document.getElementById("sliders-container");
   const sliders = sliderContainer.children;
-  while (sliders.length > 5) {
-    sliders[1].remove();
+  if (n <= 0) {
+    while (sliders.length > 5) {
+      sliders[1].remove();
+    }
+  } else {
+    while (n > 0) {
+      sliders[1].remove();
+      n--;
+    }
+  }
+}
+
+async function unloadUnusedSliders() {
+  for (const s of document.getElementsByClassName("pitch-slider")) {
+    if (s.children[0].innerText == "XX") {
+      s.remove();
+    }
   }
 }
 

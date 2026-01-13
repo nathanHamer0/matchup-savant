@@ -158,6 +158,24 @@ body {
 }
 */
 
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px; /* As to render the element circular*/
+  border: solid 5px rgba(76, 0, 255, 1);
+  border-top: solid 5px rgb(0, 255, 0); /* As to differentiate the color of 1/4 of circle to display animation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  } /* rotate to 0deg at 0% of spin */
+  100% {
+    transform: rotate(360deg);
+  } /* rotate to 360deg at 100% of spin */
+} /* `@keyframes` to define `spin` operator */
+
 /*******************************************************************************************************************************************************/
 
 #sliders-container {

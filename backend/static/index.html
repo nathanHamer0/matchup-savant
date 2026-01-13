@@ -10,6 +10,7 @@
     <main class="app">
       <section class="descriptors">
         <div class="card" id="main-menu">
+          <div class="loading-spinner"></div>
           <p class="description" id="welcome-description">
             Welcome! This is a baseball batter-pitcher matchup calculator. The
             way it works is: based on respective per-pitch-type and per-zone
@@ -95,21 +96,30 @@
       </section>
       <section class="results">
         <div class="card" id="score-menu">
-          <h3>
-            Grand-Score:
-            <span class="score dynamic-color" id="grand-score">---</span>
-          </h3>
-          <p id="message-score">
-            <span class="dynamic-color" id="message-winner">---</span> is
-            projected to have a(n)<span
-              class="dynamic-color"
-              id="message-score-margin"
-            >
-              ---</span
-            >
-            advantage over
-            <span class="dynamic-color" id="message-loser">---</span>.
-          </p>
+          <div id="standard-message">
+            <h3>
+              Grand-Score:
+              <span class="score dynamic-color" id="grand-score">---</span>
+            </h3>
+            <p id="message-score">
+              <span class="dynamic-color" id="message-winner">---</span> is
+              projected to have a(n)<span
+                class="dynamic-color"
+                id="message-score-margin"
+              >
+                ---</span
+              >
+              advantage over
+              <span class="dynamic-color" id="message-loser">---</span>.
+            </p>
+            <div id="load-message" style="display: none">
+              <div class="loading-spinner"></div>
+              <p>Calculating matchup...</p>
+            </div>
+          </div>
+          <div id="fail-message" style="display: none">
+            <p>Insufficient player data. Try another matchup.</p>
+          </div>
         </div>
       </section>
       <section class="results-ext">
