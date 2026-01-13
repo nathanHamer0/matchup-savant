@@ -17,8 +17,12 @@ async function matchupButton() {
   resetButton(false);
 
   // Enable loading animation
-  document.getElementById("standard-message").style.display = "none";
-  document.getElementById("load-message").style.display = "block";
+  for (const elem of document.getElementsByClassName("standard-message")) {
+    elem.style.display = "none";
+  }
+  for (const elem of document.getElementsByClassName("load-message")) {
+    elem.style.display = "block";
+  }
 
   // *** Pass inputs ***
   const batter = document.getElementById("batter-dropdown").value;
@@ -36,8 +40,12 @@ async function matchupButton() {
     !data.grand_zone_score |
     (Object.keys(data.zone_scores).length != 18)
   ) {
-    document.getElementById("standard-message").style.display = "none";
-    document.getElementById("fail-message").style.display = "block";
+    for (const elem of document.getElementsByClassName("standard-message")) {
+      elem.style.display = "none";
+    }
+    for (const elem of document.getElementById("fail-message")) {
+      elem.style.display = "block";
+    }
     return;
   }
 
@@ -83,14 +91,40 @@ async function matchupButton() {
 
   // ** Configure pitch sliders **
 
-  // Configure pitch-type score
+  // Configure pitch-type score and message
   const arsenalScoreSpan = document.getElementById("arsenal-score");
   const pitchTypeGrandScore = data.grand_pitch_type_score.toFixed(3);
   arsenalScoreSpan.innerText = String(pitchTypeGrandScore) + " RV/100";
+  const arsenalMsgWinner = document.getElementById("arsenal-message-winner");
+  const arsenalMsgLoser = document.getElementById("arsenal-message-loser");
   if (pitchTypeGrandScore > 0.0) {
     arsenalScoreSpan.style.color = "blue";
+    arsenalMsgWinner.style.color = "blue";
+    arsenalMsgWinner.innerText = batterName;
+    arsenalMsgLoser.style.color = "red";
+    arsenalMsgLoser.innerText = pitcherName;
   } else if (pitchTypeGrandScore < 0.0) {
     arsenalScoreSpan.style.color = "red";
+    arsenalMsgWinner.style.color = "red";
+    arsenalMsgWinner.innerText = pitcherName;
+    arsenalMsgLoser.style.color = "blue";
+    arsenalMsgLoser.innerText = batterName;
+  }
+  const arsenalMsgScoreMargin = document.getElementById(
+    "arsenal-message-score-margin"
+  );
+  if (Math.abs(pitchTypeGrandScore) >= 1.0) {
+    arsenalMsgScoreMargin.innerText = " excellent";
+    arsenalMsgScoreMargin.style.color = "rgb(0, 255, 0)";
+  } else if (Math.abs(pitchTypeGrandScore) >= 0.5) {
+    arsenalMsgScoreMargin.innerText = " great";
+    arsenalMsgScoreMargin.style.color = "rgb(246, 255, 0)";
+  } else if (Math.abs(pitchTypeGrandScore) >= 0.1) {
+    arsenalMsgScoreMargin.innerText = " good";
+    arsenalMsgScoreMargin.style.color = "rgb(255, 140, 0)";
+  } else {
+    arsenalMsgScoreMargin.innerText = " okay";
+    arsenalMsgScoreMargin.style.color = "rgb(75, 75, 75)";
   }
 
   // Load additional sliders (if necessary)
@@ -154,14 +188,40 @@ async function matchupButton() {
 
   // ** Configure zone cells **
 
-  // Configure zone score
+  // Configure zone score and message
   const locationScoreSpan = document.getElementById("location-score");
   const zoneGrandScore = data.grand_zone_score.toFixed(3);
   locationScoreSpan.innerText = String(zoneGrandScore) + " RV/100";
+  const locationMsgWinner = document.getElementById("location-message-winner");
+  const locationMsgLoser = document.getElementById("location-message-loser");
   if (zoneGrandScore > 0.0) {
     locationScoreSpan.style.color = "blue";
+    locationMsgWinner.style.color = "blue";
+    locationMsgWinner.innerText = batterName;
+    locationMsgLoser.style.color = "red";
+    locationMsgLoser.innerText = pitcherName;
   } else if (zoneGrandScore < 0.0) {
     locationScoreSpan.style.color = "red";
+    locationMsgWinner.style.color = "red";
+    locationMsgWinner.innerText = pitcherName;
+    locationMsgLoser.style.color = "blue";
+    locationMsgLoser.innerText = batterName;
+  }
+  const locationMsgScoreMargin = document.getElementById(
+    "location-message-score-margin"
+  );
+  if (Math.abs(zoneGrandScore) >= 1.0) {
+    locationMsgScoreMargin.innerText = " excellent";
+    locationMsgScoreMargin.style.color = "rgb(0, 255, 0)";
+  } else if (Math.abs(zoneGrandScore) >= 0.5) {
+    locationMsgScoreMargin.innerText = " great";
+    locationMsgScoreMargin.style.color = "rgb(246, 255, 0)";
+  } else if (Math.abs(zoneGrandScore) >= 0.1) {
+    locationMsgScoreMargin.innerText = " good";
+    locationMsgScoreMargin.style.color = "rgb(255, 140, 0)";
+  } else {
+    locationMsgScoreMargin.innerText = " okay";
+    locationMsgScoreMargin.style.color = "rgb(75, 75, 75)";
   }
 
   // Configure zone cells
@@ -220,8 +280,12 @@ async function matchupButton() {
   unloadUnusedSliders();
 
   // Disable loading animation
-  document.getElementById("load-message").style.display = "none";
-  document.getElementById("standard-message").style.display = "block";
+  for (const elem of document.getElementsByClassName("load-message")) {
+    elem.style.display = "none";
+  }
+  for (const elem of document.getElementsByClassName("standard-message")) {
+    elem.style.display = "block";
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -237,9 +301,16 @@ async function resetButton(fullReset = true) {
     document.getElementById("pitcher-dropdown").value = "select";
   }
 
-  if (document.getElementById("standard-message").style.display == "none") {
-    document.getElementById("fail-message").style.display = "none";
-    document.getElementById("standard-message").style.display = "block";
+  if (
+    document.getElementsByClassName("standard-message")[0].style.display ==
+    "none"
+  ) {
+    for (const elem of document.getElementsByClassName("fail-message")) {
+      elem.style.display = "none";
+    }
+    for (const elem of document.getElementsByClassName("standard-message")) {
+      elem.style.display = "block";
+    }
   }
 
   unloadSliders();

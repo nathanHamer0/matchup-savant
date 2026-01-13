@@ -176,6 +176,14 @@ body {
   } /* rotate to 360deg at 100% of spin */
 } /* `@keyframes` to define `spin` operator */
 
+#arsenal-message-score {
+  padding-bottom: var(--space-lg);
+}
+
+#location-message-score {
+  padding-bottom: var(--space-lg);
+}
+
 /*******************************************************************************************************************************************************/
 
 #sliders-container {
@@ -270,6 +278,12 @@ body {
 }
 
 /*******************************************************************************************************************************************************/
+
+#zone-legend {
+  position: absolute;
+  height: 30%;
+  width: 15%;
+}
 
 #zone-container {
   position: relative;

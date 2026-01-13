@@ -14,10 +14,11 @@
             Welcome! This is a baseball batter-pitcher matchup calculator. The
             way it works is: based on respective per-pitch-type and per-zone
             run-value (RV/100) splits for both batter and pitcher, a
-            comprehensive matchup score is calibrated, considering both arsenal
-            and location factors. Simply select a batter-pitcher duo and press
-            the 'Matchup!' button to generate the matchup score and associated
-            graphics. That's it!
+            comprehensive matchup score is calibrated along with various matchup
+            sub-scores, all together, considering both arsenal and location
+            factors. Simply select a batter-pitcher duo and press the 'Matchup!'
+            button to generate the matchup scores and associated graphics.
+            That's it!
           </p>
           <div class="card shrink-top-pad">
             <h3>Legend</h3>
@@ -95,14 +96,15 @@
       </section>
       <section class="results">
         <div class="card" id="score-menu">
-          <div id="standard-message">
+          <div class="standard-message">
             <h3>
               Grand-Score:
               <span class="score dynamic-color" id="grand-score">---</span>
             </h3>
             <p id="message-score">
+              Ultimately, considering arsenal and location factors together,
               <span class="dynamic-color" id="message-winner">---</span> is
-              projected to have a(n)<span
+              overall projected to have a(n)<span
                 class="dynamic-color"
                 id="message-score-margin"
               >
@@ -112,23 +114,43 @@
               <span class="dynamic-color" id="message-loser">---</span>.
             </p>
           </div>
-          <div id="load-message" style="display: none">
+          <div class="load-message" style="display: none">
             <div class="loading-spinner"></div>
             <p>Calculating matchup...</p>
           </div>
-          <div id="fail-message" style="display: none">
+          <div class="fail-message" style="display: none">
             <p>Insufficient player data. Try another matchup.</p>
           </div>
         </div>
       </section>
       <section class="results-ext">
         <div class="card" id="pitch-sliders-container">
-          <div class="header-text" id="pitch-sliders-header">
+          <div class="header-text" id="pitch-sliders-header"></div>
+          <div class="standard-message">
             <h2>Run Value (RV/100) by Usage-Weighted Pitch-Type</h2>
             <h3>
               Arsenal-Score:
               <span class="score dynamic-color" id="arsenal-score">---</span>
             </h3>
+            <p id="arsenal-message-score">
+              In terms of arsenal factors,
+              <span class="dynamic-color" id="arsenal-message-winner">---</span>
+              is projected to have a(n)<span
+                class="dynamic-color"
+                id="arsenal-message-score-margin"
+              >
+                ---</span
+              >
+              advantage over
+              <span class="dynamic-color" id="arsenal-message-loser">---</span>.
+            </p>
+          </div>
+          <div class="load-message" style="display: none">
+            <div class="loading-spinner"></div>
+            <p>Calculating matchup...</p>
+          </div>
+          <div class="fail-message" style="display: none">
+            <p>Insufficient player data. Try another matchup.</p>
           </div>
           <div id="sliders-container">
             <template id="slider-template">
@@ -156,18 +178,41 @@
           </div>
         </div>
         <div class="card" id="strikezone-container">
-          <div class="header-text" id="strikezone-header">
+          <div class="header-text" id="strikezone-header"></div>
+          <div class="standard-message">
             <h2>Run Value (RV/100) by Frequency-Weighted Zone Location</h2>
             <h3>
               Location-Score:
               <span class="score dynamic-color" id="location-score">---</span>
             </h3>
-            <div class="card">
-              <h4>Legend</h4>
-              <p>___ Strike-Zone</p>
-              <p>--- Shadow-Zone</p>
-              <p>... Waste-Zone</p>
-            </div>
+            <p id="location-message-score">
+              In terms of location factors,
+              <span class="dynamic-color" id="location-message-winner"
+                >---</span
+              >
+              is projected to have a(n)<span
+                class="dynamic-color"
+                id="location-message-score-margin"
+              >
+                ---</span
+              >
+              advantage over
+              <span class="dynamic-color" id="location-message-loser">---</span
+              >.
+            </p>
+          </div>
+          <div class="load-message" style="display: none">
+            <div class="loading-spinner"></div>
+            <p>Calculating matchup...</p>
+          </div>
+          <div class="fail-message" style="display: none">
+            <p>Insufficient player data. Try another matchup.</p>
+          </div>
+          <div class="card" id="zone-legend">
+            <h4>Legend</h4>
+            <p>___ Strike-Zone</p>
+            <p>--- Shadow-Zone</p>
+            <p>... Waste-Zone</p>
           </div>
           <div id="zone-container">
             <div id="zone-grid">
