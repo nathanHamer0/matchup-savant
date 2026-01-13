@@ -26,6 +26,10 @@ async function matchupButton() {
   // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
   resetButton(false);
 
+  // Enable loading animation
+  document.getElementById("standard-message").style.display = "none";
+  document.getElementById("load-message").style.display = "block";
+
   if (
     !data.grand_score |
     !data.grand_pitch_type_score |
@@ -214,6 +218,10 @@ async function matchupButton() {
   }
 
   unloadUnusedSliders();
+
+  // Disable loading animation
+  document.getElementById("load-message").style.display = "none";
+  document.getElementById("standard-message").style.display = "block";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
