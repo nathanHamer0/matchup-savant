@@ -13,6 +13,9 @@ const PITCH_CODINGS = {
 
 /////////////////////////////////////////////////////////////////////////////////////
 async function matchupButton() {
+  // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
+  resetButton(false);
+
   // Enable loading animation
   document.getElementById("standard-message").style.display = "none";
   document.getElementById("load-message").style.display = "block";
@@ -26,9 +29,6 @@ async function matchupButton() {
   const data = await response.json();
 
   // *** Configure returns ****
-
-  // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
-  resetButton(false);
 
   if (
     !data.grand_score |
