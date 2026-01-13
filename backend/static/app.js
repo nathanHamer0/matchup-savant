@@ -13,6 +13,10 @@ const PITCH_CODINGS = {
 
 /////////////////////////////////////////////////////////////////////////////////////
 async function matchupButton() {
+  // Enable loading animation
+  document.getElementById("standard-message").style.display = "none";
+  document.getElementById("load-message").style.display = "block";
+
   // *** Pass inputs ***
   const batter = document.getElementById("batter-dropdown").value;
   const pitcher = document.getElementById("pitcher-dropdown").value;
@@ -25,10 +29,6 @@ async function matchupButton() {
 
   // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
   resetButton(false);
-
-  // Enable loading animation
-  document.getElementById("standard-message").style.display = "none";
-  document.getElementById("load-message").style.display = "block";
 
   if (
     !data.grand_score |

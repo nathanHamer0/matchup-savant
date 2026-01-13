@@ -216,6 +216,10 @@ body {
   background-color: white;
 }
 
+#origin-flag {
+  z-index: 2;
+}
+
 #batter-flag {
   position: absolute;
   left: 100%;
