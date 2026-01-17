@@ -61,9 +61,7 @@ def pitch_type_matchup(
         # Log to returnables and compare respective normalized and frequency-weighted run values
         batter_grand_pitch_type_score += batter_pitch_type_score
         pitcher_grand_pitch_type_score += pitcher_pitch_type_score
-        pitch_type_scores[p] = (
-            batter_pitch_type_score - pitcher_pitch_type_score
-        )  # imposed direction
+        pitch_type_scores[p] = batter_pitch_type_score - pitcher_pitch_type_score
 
     return {
         "grand_pitch_type_score": batter_grand_pitch_type_score
@@ -109,9 +107,7 @@ def zone_matchup(
         # Log to returnables and compare respective normalized and frequency-weighted run values
         batter_zone_score += batter_zone_cell_score
         pitcher_zone_score += pitcher_zone_cell_score
-        zone_scores[z] = (
-            batter_zone_cell_score - pitcher_zone_cell_score
-        )  # inherent direction
+        zone_scores[z] = batter_zone_cell_score - pitcher_zone_cell_score
 
     return {
         "grand_zone_score": batter_zone_score - pitcher_zone_score,

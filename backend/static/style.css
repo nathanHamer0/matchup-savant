@@ -1,3 +1,5 @@
+/* *** Global element properties *** */
+
 :root {
   --space-xxs: 0.1rem;
   --space-xs: 0.25rem;
@@ -54,6 +56,8 @@ body {
   font-family: Menlo;
 }
 
+/* ** Additional global class-based coloring properties ** */
+
 .dynamic-color {
   color: rgba(93, 93, 93, 1);
 }
@@ -62,7 +66,7 @@ body {
   color: white;
 }
 
-/*******************************************************************************************************************************************************/
+/* *** Grid layouts and global class-based spacing and coloring properties *** */
 
 .app {
   display: grid;
@@ -76,6 +80,7 @@ body {
   grid-template-columns: 1fr auto;
 }
 
+/* LOOK: Currently disabled. */
 /* .results-ext {
   display: grid; */
 /* grid-template-columns: 1fr 2fr; /* Horizontally partitions 2 children of bottom into columns {controls} {results}*/
@@ -103,7 +108,7 @@ body {
   padding-top: var(--space-xxs);
 }
 
-/*******************************************************************************************************************************************************/
+/* *** Miscellanious (mostly) ID-based properties *** */
 
 #legend-body {
   display: grid;
@@ -180,7 +185,7 @@ body {
   padding-bottom: var(--space-lg);
 }
 
-/*******************************************************************************************************************************************************/
+/* *** Slider graphics properties ***  */
 
 #sliders-container {
   position: relative;
@@ -273,7 +278,7 @@ body {
   border: solid 2.5px black;
 }
 
-/*******************************************************************************************************************************************************/
+/* *** Strikezone graphics properties *** */
 
 #zone-legend {
   position: absolute;
@@ -287,7 +292,7 @@ body {
   margin: auto;
 }
 
-/**********************************************/
+/* ** Grid-zone specific properties ** */
 
 #zone-grid {
   /* Grid properties */
@@ -315,7 +320,7 @@ body {
   font-size: 0.75rem;
 }
 
-/**********************************************/
+/* ** Shadow-zone specific properties ** */
 
 #zone-shadow {
   margin: 0 auto;
@@ -389,7 +394,7 @@ body {
   line-height: 0;
 }
 
-/**********************************************/
+/* ** Waste-zone specific properties ** */
 
 .zone-waste {
   height: 100%;

@@ -11,7 +11,130 @@ const PITCH_CODINGS = {
   kc: "Knuckle-Curve",
 };
 
-/////////////////////////////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS
+
+/**
+ * Fill the dropdown elements with the players of the player-base.
+ *
+ */
+async function loadDropdowns() {
+  // Fetch and sort player-base
+  const response = await fetch(`/players`);
+  const data = await response.json();
+  const batters = data.batters;
+  const pitchers = data.pitchers;
+  batters.sort((a, b) => a.standard_name.localeCompare(b.standard_name));
+  pitchers.sort((a, b) => a.standard_name.localeCompare(b.standard_name));
+
+  const template = document.getElementById("dropdown-subject-template").content
+    .firstElementChild;
+
+  // Create option element for each batter and place within batter dropdown
+  const batterDropdown = document.getElementById("batter-dropdown");
+  for (b of batters) {
+    const dropdownSubject = template.cloneNode(true);
+    dropdownSubject.style.display = "block";
+    dropdownSubject.value = b.snake;
+    dropdownSubject.innerText = b.standard_name;
+    batterDropdown.appendChild(dropdownSubject);
+  }
+
+  // Create option element for each pitcher and place within pitcher dropdown
+  const pitcherDropdown = document.getElementById("pitcher-dropdown");
+  for (p of pitchers) {
+    const dropdownSubject = template.cloneNode(true);
+    dropdownSubject.style.display = "block";
+    dropdownSubject.value = p.snake;
+    dropdownSubject.innerText = p.standard_name;
+    pitcherDropdown.appendChild(dropdownSubject);
+  }
+}
+
+/**
+ * Given an amount, create said amount of sliders
+ *
+ * @param {number} n - Amount of (additional) sliders needed
+ */
+function loadSliders(n) {
+  const template =
+    document.getElementById("slider-template").content.firstElementChild;
+  const sliderContainer = document.getElementById("sliders-container");
+  var i = 0;
+  while (i < n) {
+    const slider = template.cloneNode(true);
+    slider.style.display = "block";
+    sliderContainer.appendChild(slider);
+    i++;
+  }
+}
+
+/**
+ * Given an amount, remove said amount of sliders.
+ * Otherwise, remove sliders until there is only the default amount left (i.e., +1; as to account for the template).
+ *
+ * @param {number} [n=0]
+ */
+function unloadSliders(n = 0) {
+  const sliderContainer = document.getElementById("sliders-container");
+  const sliders = sliderContainer.children;
+  if (n <= 0) {
+    while (sliders.length > NUM_SLIDERS + 1) {
+      sliders[1].remove();
+    }
+  } else {
+    while (n > 0) {
+      sliders[1].remove();
+      n--;
+    }
+  }
+}
+
+/**
+ * Remove sliders which are currently in the default unconfigured state.
+ *
+ */
+function unloadUnusedSliders() {
+  for (const s of document.getElementsByClassName("pitch-slider")) {
+    if (s.children[0].innerText == "XX") {
+      s.remove();
+    }
+  }
+}
+
+/**
+ * Create the grid-zone cells.
+ *
+ */
+function loadCells() {
+  var template =
+    document.getElementById("grid-cell-template").content.firstElementChild;
+  const innerGrid = document.getElementById("zone-grid");
+  var i = 0;
+  while (i < 9) {
+    const cell = template.cloneNode(true);
+    cell.style.display = "block";
+    innerGrid.appendChild(cell);
+    i++;
+  }
+}
+
+/**
+ * Load the frontend into its default state of unconfigured elements.
+ *
+ */
+function loadPage() {
+  loadDropdowns();
+  loadSliders(NUM_SLIDERS);
+  loadCells();
+}
+
+// BUTTON FUNCTIONS
+
+/**
+ * Invokes central API call /matchup and configures the resultant data in the frontend.
+ *
+ * @return {null} - Exit prematurely upon insufficient player data.
+ */
 async function matchupButton() {
   // Automatically paritally reset for user in case matchup configuration is not manually reset before re-prompt
   resetButton(false);
@@ -34,6 +157,7 @@ async function matchupButton() {
 
   // *** Configure returns ****
 
+  // Catch insufficient-data fails
   if (
     !data.grand_score |
     !data.grand_pitch_type_score |
@@ -49,7 +173,7 @@ async function matchupButton() {
     return;
   }
 
-  // Configure score and message
+  // Configure grand score and associated message
   const scoreSpan = document.getElementById("grand-score");
   const grandScore = data.grand_score.toFixed(3);
   scoreSpan.innerText = " " + String(grandScore) + " RV/100";
@@ -91,7 +215,7 @@ async function matchupButton() {
 
   // ** Configure pitch sliders **
 
-  // Configure pitch-type score and message
+  // Configure pitch-type score and associated message
   const arsenalScoreSpan = document.getElementById("arsenal-score");
   const pitchTypeGrandScore = data.grand_pitch_type_score.toFixed(3);
   arsenalScoreSpan.innerText = String(pitchTypeGrandScore) + " RV/100";
@@ -178,6 +302,7 @@ async function matchupButton() {
       pitchTypeSubScores[i].style.color = "red";
       sliderIndicators[i].style.borderColor = "red";
     }
+
     // (Akwardly) fit slider sub-scoring to screen
     if (s > 1.5) {
       pitchTypeSubScores[i].style.left = "-150px";
@@ -188,7 +313,7 @@ async function matchupButton() {
 
   // ** Configure zone cells **
 
-  // Configure zone score and message
+  // Configure zone score and associated message
   const locationScoreSpan = document.getElementById("location-score");
   const zoneGrandScore = data.grand_zone_score.toFixed(3);
   locationScoreSpan.innerText = String(zoneGrandScore) + " RV/100";
@@ -236,7 +361,7 @@ async function matchupButton() {
   var subScores = gridSubScores;
   var cells = gridCells;
   for (const s of Object.values(scoredZones)) {
-    // Select suitable structures
+    // Select suitable zone level
     if (idx < 9) {
       i = idx;
     } else if (idx < 17) {
@@ -277,9 +402,10 @@ async function matchupButton() {
     idx++;
   }
 
+  // (Akwardly) remove any left-over sliders
   unloadUnusedSliders();
 
-  // Disable loading animation
+  // Disable loading animation and reveal configured data yields
   for (const elem of document.getElementsByClassName("load-message")) {
     elem.style.display = "none";
   }
@@ -288,19 +414,25 @@ async function matchupButton() {
   }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
-
-async function resetButton(fullReset = true) {
+/**
+ * Resets frontend to its default state of unconfigured elements.
+ *
+ * @param {boolean} [fullReset=true] - fullReset=true being designated to the classical reset button, whereas, fullReset=false being designated to a newly user-configured dropdown selection and matchup button stimulation without user manually stimulating reset button first.
+ */
+function resetButton(fullReset = true) {
+  // Reset global class-based coloring properties for dynamically color-coded elements
   for (const elem of document.getElementsByClassName("dynamic-color")) {
     elem.style.color = "rgba(93, 93, 93, 1)";
     elem.innerText = "---";
   }
 
+  // Reset dropdown selections upon true reset
   if (fullReset) {
     document.getElementById("batter-dropdown").value = "select";
     document.getElementById("pitcher-dropdown").value = "select";
   }
 
+  // Reset all messages to default messages, if necessary
   if (
     document.getElementsByClassName("standard-message")[0].style.display ==
     "none"
@@ -313,18 +445,18 @@ async function resetButton(fullReset = true) {
     }
   }
 
+  // Reset slider-container to the default amount of sliders
   unloadSliders();
 
+  // Reset slider graphics
   const pitchSliders = document.getElementsByClassName("pitch-slider");
   for (const s of pitchSliders) {
     s.style.border = "";
   }
-
   const pitchLabels = document.getElementsByClassName("pitch-type-field");
   for (const l of pitchLabels) {
     l.innerText = "XX";
   }
-
   const pitchTypeSubScores = document.getElementsByClassName(
     "pitch-type-sub-score"
   );
@@ -332,7 +464,6 @@ async function resetButton(fullReset = true) {
     s.innerText = "-";
     s.style.color = "gray";
   }
-
   const sliderIndicators = document.getElementsByClassName("slider-indicator");
   for (const i of sliderIndicators) {
     i.style.backgroundColor = "rgba(93, 93, 93, 1)";
@@ -340,6 +471,7 @@ async function resetButton(fullReset = true) {
     i.style.left = "0";
   }
 
+  // Reset strikezone graphics
   const gridCells = document.getElementsByClassName("grid-cell");
   for (const c of gridCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
@@ -350,7 +482,6 @@ async function resetButton(fullReset = true) {
     c.style.color = "white";
     c.innerText = "-";
   }
-
   const shadowCells = document.getElementsByClassName("shadow-cell");
   for (const c of shadowCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
@@ -361,7 +492,6 @@ async function resetButton(fullReset = true) {
     c.style.color = "white";
     c.innerText = "-";
   }
-
   const wasteCells = document.getElementsByClassName("zone-waste");
   for (const c of wasteCells) {
     c.style.backgroundColor = "rgb(55, 55, 55)";
@@ -374,165 +504,69 @@ async function resetButton(fullReset = true) {
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-async function loadDropdowns() {
-  const response = await fetch(`/players`);
-  const data = await response.json();
-  const batters = data.batters;
-  const pitchers = data.pitchers;
-  batters.sort((a, b) => a.standard_name.localeCompare(b.standard_name));
-  pitchers.sort((a, b) => a.standard_name.localeCompare(b.standard_name));
-
-  const template = document.getElementById("dropdown-subject-template").content
-    .firstElementChild;
-
-  const batterDropdown = document.getElementById("batter-dropdown");
-  for (b of batters) {
-    const dropdownSubject = template.cloneNode(true);
-    dropdownSubject.style.display = "block";
-    dropdownSubject.value = b.snake;
-    dropdownSubject.innerText = b.standard_name;
-    batterDropdown.appendChild(dropdownSubject);
-  }
-
-  const pitcherDropdown = document.getElementById("pitcher-dropdown");
-  for (p of pitchers) {
-    const dropdownSubject = template.cloneNode(true);
-    dropdownSubject.style.display = "block";
-    dropdownSubject.value = p.snake;
-    dropdownSubject.innerText = p.standard_name;
-    pitcherDropdown.appendChild(dropdownSubject);
-  }
-}
-
-async function loadSliders(n) {
-  const template =
-    document.getElementById("slider-template").content.firstElementChild;
-  const sliderContainer = document.getElementById("sliders-container");
-  var i = 0;
-  while (i < n) {
-    const slider = template.cloneNode(true);
-    slider.style.display = "block";
-    sliderContainer.appendChild(slider);
-    i++;
-  }
-}
-
-async function unloadSliders(n = 0) {
-  const sliderContainer = document.getElementById("sliders-container");
-  const sliders = sliderContainer.children;
-  if (n <= 0) {
-    while (sliders.length > 5) {
-      sliders[1].remove();
-    }
-  } else {
-    while (n > 0) {
-      sliders[1].remove();
-      n--;
-    }
-  }
-}
-
-async function unloadUnusedSliders() {
-  for (const s of document.getElementsByClassName("pitch-slider")) {
-    if (s.children[0].innerText == "XX") {
-      s.remove();
-    }
-  }
-}
-
-async function loadCells() {
-  var template =
-    document.getElementById("grid-cell-template").content.firstElementChild;
-  const innerGrid = document.getElementById("zone-grid");
-  var i = 0;
-
-  while (i < 9) {
-    const cell = template.cloneNode(true);
-    cell.style.display = "block";
-    innerGrid.appendChild(cell);
-    i++;
-  }
-}
-
 // LOOK: Currently disabled.
-// async function darkLightMode() {
-//   // Get current theme color through default-colored text
-//   var currentMode = document.querySelectorAll(
-//     "*:not(.fixed-color, .dynamic-color)"
-//   )[0].style.color;
-
-//   // White-to-black
-//   if (currentMode == "white") {
-//     // Set all default-colored elements to theme color
-//     for (const elem of document.querySelectorAll(
-//       "*:not(.fixed-color, .dynamic-color)"
-//     )) {
-//       elem.style.color = "black";
-//     }
-
-//     // Set backgrounds to theme color
-//     document.body.style.backgroundColor = "black";
-//     for (const elem of document.getElementsByClassName("card")) {
-//       elem.style.background =
-//         "linear-gradient(black 30%, rgba(76, 0, 255, 0.6) 100%)";
-//     }
-
-//     // Set all default-colored text to inverse of theme color
-//     for (const elem of document.querySelectorAll(
-//       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
-//     )) {
-//       elem.style.color = "white";
-//     }
-
-//     // Set dark-background elements to white (as they are falsely included in the first block)
-//     for (const elem of document.getElementsByClassName("grid-sub-score")) {
-//       elem.style.color = "white";
-//     }
-
-//     // Reconfigure theme toggle
-//     document.getElementById("view-mode-flag").innerText = "Light";
-//     document.getElementById("view-mode-flag").style.color = "white";
-//     document.getElementById("view-mode-toggle").style.backgroundColor = "black";
-
-//     // Black-to-white
-//   } else {
-//     // Set all default-colored elements to theme color
-//     for (const elem of document.querySelectorAll(
-//       "*:not(.fixed-color, .dynamic-color)"
-//     )) {
-//       elem.style.color = "white";
-//     }
-
-//     // Set backgrounds to theme color
-//     document.body.style.backgroundColor = "white";
-//     for (const elem of document.getElementsByClassName("card")) {
-//       elem.style.background =
-//         "linear-gradient(white 30%, rgba(76, 0, 255, 0.6) 100%)";
-//     }
-
-//     // Set all default-colored text to inverse of theme color
-//     for (const elem of document.querySelectorAll(
-//       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
-//     )) {
-//       elem.style.color = "black";
-//     }
-
-//     // Set light-background elements to black (as they are falsely included in the first block)
-//     document.getElementById("matchup-button").style.color = "black";
-//     document.getElementById("reset-button").style.color = "black";
-//     document.getElementById("batter-dropdown").style.color = "black";
-//     document.getElementById("pitcher-dropdown").style.color = "black";
-
-//     // Reconfigure theme toggle
-//     document.getElementById("view-mode-flag").innerText = "Dark";
-//     document.getElementById("view-mode-flag").style.color = "black";
-//     document.getElementById("view-mode-toggle").style.backgroundColor = "white";
-//   }
-// }
-
-async function loadPage() {
-  loadDropdowns();
-  loadSliders(NUM_SLIDERS);
-  loadCells();
+function darkLightMode() {
+  //   // Get current theme color through default-colored text
+  //   var currentMode = document.querySelectorAll(
+  //     "*:not(.fixed-color, .dynamic-color)"
+  //   )[0].style.color;
+  //   // White-to-black
+  //   if (currentMode == "white") {
+  //     // Set all default-colored elements to theme color
+  //     for (const elem of document.querySelectorAll(
+  //       "*:not(.fixed-color, .dynamic-color)"
+  //     )) {
+  //       elem.style.color = "black";
+  //     }
+  //     // Set backgrounds to theme color
+  //     document.body.style.backgroundColor = "black";
+  //     for (const elem of document.getElementsByClassName("card")) {
+  //       elem.style.background =
+  //         "linear-gradient(black 30%, rgba(76, 0, 255, 0.6) 100%)";
+  //     }
+  //     // Set all default-colored text to inverse of theme color
+  //     for (const elem of document.querySelectorAll(
+  //       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
+  //     )) {
+  //       elem.style.color = "white";
+  //     }
+  //     // Set dark-background elements to white (as they are falsely included in the first block)
+  //     for (const elem of document.getElementsByClassName("grid-sub-score")) {
+  //       elem.style.color = "white";
+  //     }
+  //     // Reconfigure theme toggle
+  //     document.getElementById("view-mode-flag").innerText = "Light";
+  //     document.getElementById("view-mode-flag").style.color = "white";
+  //     document.getElementById("view-mode-toggle").style.backgroundColor = "black";
+  //     // Black-to-white
+  //   } else {
+  //     // Set all default-colored elements to theme color
+  //     for (const elem of document.querySelectorAll(
+  //       "*:not(.fixed-color, .dynamic-color)"
+  //     )) {
+  //       elem.style.color = "white";
+  //     }
+  //     // Set backgrounds to theme color
+  //     document.body.style.backgroundColor = "white";
+  //     for (const elem of document.getElementsByClassName("card")) {
+  //       elem.style.background =
+  //         "linear-gradient(white 30%, rgba(76, 0, 255, 0.6) 100%)";
+  //     }
+  //     // Set all default-colored text to inverse of theme color
+  //     for (const elem of document.querySelectorAll(
+  //       "p:not(.fixed-color, .dynamic-color), h1:not(.fixed-color, .dynamic-color), h2:not(.fixed-color, .dynamic-color), h3:not(.fixed-color, .dynamic-color), h4:not(.fixed-color, .dynamic-color), span:not(.fixed-color, .dynamic-color), label:not(.fixed-color, .dynamic-color), div:not(.fixed-color, .dynamic-color)"
+  //     )) {
+  //       elem.style.color = "black";
+  //     }
+  //     // Set light-background elements to black (as they are falsely included in the first block)
+  //     document.getElementById("matchup-button").style.color = "black";
+  //     document.getElementById("reset-button").style.color = "black";
+  //     document.getElementById("batter-dropdown").style.color = "black";
+  //     document.getElementById("pitcher-dropdown").style.color = "black";
+  //     // Reconfigure theme toggle
+  //     document.getElementById("view-mode-flag").innerText = "Dark";
+  //     document.getElementById("view-mode-flag").style.color = "black";
+  //     document.getElementById("view-mode-toggle").style.backgroundColor = "white";
+  //   }
+  return 0;
 }

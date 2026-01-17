@@ -30,6 +30,8 @@ I wanted to combine:
 - CSS
 - JavaScript
 - Python
+- FastAPI
+- pandas
 
 ## Challenges
 
@@ -65,6 +67,7 @@ scripts/
 ## Future improvements
 
 - Improve UI, at graphics specifically
+  - Re-implement legend as an expandable and portable side-bar
 - Optimize matchup load speeds
 - Implementing handedness splits
 - Handling missing data for small-sample players in terms of UI representation

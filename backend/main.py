@@ -9,7 +9,7 @@ import name_utils
 
 app = FastAPI()
 
-# ** Configure API routes **
+# Configure API routes
 
 
 @app.get("/health")
