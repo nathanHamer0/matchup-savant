@@ -76,7 +76,7 @@ def test_zone_matchup_valid():
 def test_matchup_valid(mocker):
     """Test a comprehensive matchup with valid input."""
     # Define inputs
-    player_matchup = ("thing_01", "thing_02")
+    player_matchup = ("thing_one", "thing_two")
     batter_pitch_types = {
         "ff": df({"batter_run_value_per_100": [0.4]}),
         "sl": df({"batter_run_value_per_100": [-0.1]}),
@@ -123,14 +123,16 @@ def test_matchup_valid(mocker):
         pitcher_zone,
         pitcher_total,
     )
-    assert res["player_matchup"] == player_matchup
-    assert res["grand_score"] == pytest.approx(0.0)
-    assert res["grand_pitch_type_score"] == pytest.approx(-1.0)
-    assert res["grand_zone_score"] == pytest.approx(1.0)
-    assert res["pitch_type_frequencies"] == pytest.approx({"ff": 0.7, "sl": 0.3})
-    assert res["zone_frequencies"] == pytest.approx({"1": 0.5, "2": 0.5})
-    assert res["pitch_type_scores"] == pytest.approx({"ff": -0.7, "sl": -0.3})
-    assert res["zone_scores"] == pytest.approx({"1": 0.5, "2": 0.5})
+    assert res == {
+        "player_matchup": player_matchup,
+        "grand_score": 0.0,
+        "grand_pitch_type_score": -1.0,
+        "grand_zone_score": 1.0,
+        "pitch_type_frequencies": {"ff": 0.7, "sl": 0.3},
+        "zone_frequencies": {"1": 0.5, "2": 0.5},
+        "pitch_type_scores": {"ff": -0.7, "sl": -0.3},
+        "zone_scores": {"1": 0.5, "2": 0.5},
+    }
 
 
 # TODO Negative cases

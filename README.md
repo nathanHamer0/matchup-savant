@@ -26,14 +26,23 @@ I wanted to combine:
 
 ## Tech stack
 
+# Languages
+
 - HTML
 - CSS
 - JavaScript
 - Python
+
+# Frameworks
+
 - FastAPI
-- pandas
 - pytest
-- unittest.mock
+  - unittest.mock
+
+# Python Libraries
+
+- pandas
+- Playwright
 
 ## Challenges
 
@@ -47,7 +56,7 @@ I wanted to combine:
 **Notes:**
 
 - The first load may take 30-60 seconds as the free tier render service spins up from sleep.
-- Due to not-yet-optimized code, matchup loads may take 5-10 seconds per load.
+- Due to not-yet-optimized code, matchup loads may take ~5 seconds per load.
 
 ## Project Structure
 
@@ -71,6 +80,6 @@ backend/
 - Improve UI, at graphics specifically
   - Re-implement legend as an expandable and portable side-bar
 - Optimize matchup load speeds
-- Implementing handedness splits
-- Handling missing data for small-sample players in terms of UI representation
-- Caching player data
+- Implement handedness splits
+- Better handle missing data for small-sample players in terms of UI representation
+- Cache player data

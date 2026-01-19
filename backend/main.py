@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+import os
 
 import matchup
 import data_loader
@@ -42,11 +43,12 @@ async def get_matchup(batter: str, pitcher: str) -> dict:
     )
 
 
-# Mount static files (CSS, JS)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Reserved for deployment
+if os.getenv("ENV") != "test":
+    # Mount static files (CSS, JS)
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
-# Serve index.html at root
-@app.get("/")
-async def read_root():
-    return FileResponse("static/index.html")
+    # Serve index.html at root
+    @app.get("/")
+    async def read_root():
+        return FileResponse("static/index.html")

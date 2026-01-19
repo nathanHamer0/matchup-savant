@@ -151,6 +151,17 @@ async function matchupButton() {
   const batter = document.getElementById("batter-dropdown").value;
   const pitcher = document.getElementById("pitcher-dropdown").value;
 
+  // Catch unselected matchup fails
+  if ((batter == "select") | (pitcher == "select")) {
+    for (const elem of document.getElementsByClassName("load-message")) {
+      elem.style.display = "none";
+    }
+    for (const elem of document.getElementsByClassName("fail-message")) {
+      elem.style.display = "block";
+    }
+    return;
+  }
+
   // *** Call API ***
   const response = await fetch(`/matchup?batter=${batter}&pitcher=${pitcher}`);
   const data = await response.json();
