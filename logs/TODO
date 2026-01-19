@@ -4,7 +4,7 @@ COMPULSARIES
   - Currently have a pre-comparison normalization for pitcher and batter yields on seperate normality scales [DONE]
     - Combining seperate normality scales yields weight-based distortions in final data
   - Must generate a set of matchup scores and post-normalize from that singular normality scale based on the derived means and standard-deviations [TODO]
-  - Document compute_empirical_distribution.py [TODO]
+  - Negative unit-test cases [TODO]
 
 ELECTIVES
 

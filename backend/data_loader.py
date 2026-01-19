@@ -91,7 +91,7 @@ def load_pitcher(name: str) -> dict[str | int, DataFrame] | int:
         raise KeyError(f"ERROR: {name} does not exist within the database.")
 
 
-def get_all_batters() -> list[str]:
+def get_all_batters() -> list[dict[str, str]]:
     BATTER_DIR = os.path.join(DATA_DIR, "batters_alpha")
     batters_df = pandas.read_csv(os.path.join(BATTER_DIR, f"batter_total.csv"))
 

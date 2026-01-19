@@ -32,6 +32,8 @@ I wanted to combine:
 - Python
 - FastAPI
 - pandas
+- pytest
+- unittest.mock
 
 ## Challenges
 
@@ -60,8 +62,8 @@ backend/
 ├──── app.js
 ├── data/
 ├──── ...
-scripts/
-├── validate_matchup.py
+├── tests/
+├──── ...
 ...
 
 ## Future improvements

@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import os
 
 import matchup
 import data_loader
@@ -15,7 +14,6 @@ app = FastAPI()
 @app.get("/health")
 async def health() -> dict:
     return {"status": "ok"}
-    pass
 
 
 @app.get("/players")
@@ -24,7 +22,6 @@ async def get_players() -> dict:
         "batters": data_loader.get_all_batters(),
         "pitchers": data_loader.get_all_pitchers(),
     }
-    pass
 
 
 @app.get("/matchup")
@@ -43,7 +40,6 @@ async def get_matchup(batter: str, pitcher: str) -> dict:
         pitcher_zone,
         total_pitches,
     )
-    pass
 
 
 # Mount static files (CSS, JS)

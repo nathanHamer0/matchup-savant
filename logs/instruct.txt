@@ -1,6 +1,7 @@
 To run (and relaod) server:
     ```venv
-    uvicorn backend.main:app --reload
+    cd backend
+    uvicorn main:app --reload
     ```
 
 To access:
@@ -9,7 +10,7 @@ To access:
         ```venv
         python -m http.server 8080
         ```
-    - http://localhost:8080
+    - http://localhost:8000
 - FRONTEND
     - click on index.html file in finder
 - BACKEND
