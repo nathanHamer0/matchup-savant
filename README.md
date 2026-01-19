@@ -26,20 +26,20 @@ I wanted to combine:
 
 ## Tech stack
 
-# Languages
+### Languages
 
 - HTML
 - CSS
 - JavaScript
 - Python
 
-# Frameworks
+### Frameworks
 
 - FastAPI
 - pytest
   - unittest.mock
 
-# Python Libraries
+### Python Libraries
 
 - pandas
 - Playwright
